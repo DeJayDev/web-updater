@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/DeJayDev/web-updater#readme",
   "dependencies": {
-    "polka": "^0.5.2"
+    "execa": "^2.0.4",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0"
   }
 }

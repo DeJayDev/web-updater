@@ -8,6 +8,12 @@ Ths little things waits for a [GitHub Webhook](https://developer.github.com/webh
 
 Ezpz right? Cool.
 
+## How do I use it?
+
+Edit `config.example.json` then rename it to `config.json`, whenever you start a commit with `deploy: ` this script will do it's thing.
+
+I recommend running this script under a process manager such as [pm2](https://github.com/Unitech/pm2).
+
 ## Why is this open source?
 Why not lol. My public projects are lacking, so why not make one of my utilities public? 
 
