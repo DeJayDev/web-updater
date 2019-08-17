@@ -16,14 +16,6 @@
     "url": "https://github.com/DeJayDev/web-updater/issues"
   },
   "homepage": "https://github.com/DeJayDev/web-updater#readme",
-  "devDependencies": {
-    "cz-conventional-changelog": "^3.0.2"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
   "dependencies": {
     "polka": "^0.5.2"
   }

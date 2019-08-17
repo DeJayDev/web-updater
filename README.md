@@ -1,7 +1,5 @@
 # Web Updater
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
 There's a repo on this account simply titled web. It's how I maintain my website from multiple device, but I got tired of zipping the whole project and uploading it and then unzipping... 
 
 This fixes that.
