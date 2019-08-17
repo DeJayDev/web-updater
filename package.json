@@ -1,0 +1,30 @@
+{
+  "name": "web-updater",
+  "version": "1.0.0",
+  "description": "Listens for GitHub Webhook and responds accordingly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeJayDev/web-updater.git"
+  },
+  "author": "DeJayDev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DeJayDev/web-updater/issues"
+  },
+  "homepage": "https://github.com/DeJayDev/web-updater#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.0.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "polka": "^0.5.2"
+  }
+}
