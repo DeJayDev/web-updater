@@ -1,17 +1,36 @@
 const express = require('express')
 const app = express()
 
+const crypto = require('crypto')
+
 const execa = require('execa')
 const config = require('./config.json')
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.send('Oh, Hello!')
-})
+app.route('/')
+    .all((req, res) => {
+        res.send('Oh, Hello!')
+    })
 
 app.route('/update')
     .all((req, res, next) => {
+        //Thanks, stigok.
+        //https://gist.github.com/stigok/57d075c1cf2a609cb758898c0b202428
+        if (!req.body) {
+            return next({
+                success: false,
+                reason: 'No Body'
+            })
+        }
+
+        const hmac = crypto.createHmac('sha1', config.secret)
+        const digest = 'sha1=' + hmac.update(JSON.stringify(req.body)).digest('hex')
+        const checksum = req.get('X-Hub-Signature')
+        if (!checksum || !digest || checksum != digest) {
+            next(new Error(`Request body digest (${digest}) did not match X-Hub-Signature (${checksum})`))
+        }
+
         next()
     })
     .get((req, res) => {
@@ -27,21 +46,12 @@ app.route('/update')
         })
     })
     .post((req, res) => {
-        if (Object.keys(req.body).length === 0) {
-            return res.status(400).json({
-                success: false,
-                reason: 'No Body'
-            })
-        }
-        let body = req.body
-        let userAgent = req.get('User-Agent')
+        if (Object.keys(req.body).length === 0) return res.status(400).json({
+            success: false,
+            reason: 'No Body'
+        })
 
-        if (!userAgent.startsWith('GitHub-Hookshot/')) {
-            return res.status(400).json({
-                success: false,
-                reason: 'Invalid Header'
-            })
-        }
+        let body = req.body
 
         if (!body.head_commit) {
             return res.status(400).json({
@@ -49,10 +59,12 @@ app.route('/update')
                 reason: 'Missing head_commit'
             })
         }
+
         let commit = body.head_commit
 
-        if (commit.message.toLowerCase().startsWith(config.deployPrefix)) {            
+        if (commit.message.toLowerCase().startsWith(config.deployPrefix)) {
             (async () => { // eslint-disable-line
+                await execa.command(`cd ${config.deployPath}`)
                 await execa.command('git pull')
             })()
 
@@ -63,12 +75,21 @@ app.route('/update')
 
         return res.status(200).json({
             success: false,
-            reason: 'Skipping deploy.'
+            reason: 'Not Deploying'
         })
     })
     .delete((req, res, next) => {
         next(new Error('Wrong Type'))
     })
+
+app.use((err, req, res, next) => {
+    console.error(err.message)
+    if (!err.statusCode) err.statusCode = 500
+    res.status(err.statusCode).json({
+        success: false,
+        reason: err.message
+    })
+})
 
 app.listen(config.port, () => {
     console.log('> Running on port: ' + config.port)

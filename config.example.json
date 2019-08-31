@@ -1,0 +1,6 @@
+{
+    "secret": "",
+    "deployPrefix": "deploy: ",
+    "webdir": "/var/www/html",
+    "port": 1337
+}
