@@ -68,6 +68,8 @@ app.route('/update')
                 await execa.command('git pull')
             })()
 
+            console.log('Updated at: ' + Date()) 
+
             return res.status(200).json({
                 success: true
             })
