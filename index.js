@@ -64,7 +64,7 @@ app.route('/update')
 
         if (commit.message.toLowerCase().startsWith(config.deployPrefix)) {
             (async () => { // eslint-disable-line
-                await execa.command(`cd ${config.deployPath}`)
+                await execa.command(`cd ${config.webdir}`)
                 await execa.command('git pull')
             })()
 
