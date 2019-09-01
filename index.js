@@ -63,12 +63,11 @@ app.route('/update')
         let commit = body.head_commit
 
         if (commit.message.toLowerCase().startsWith(config.deployPrefix)) {
-            (async () => { // eslint-disable-line
-                await execa.command(`cd ${config.webdir}`, {shell: true})
-                await execa.command('git pull', {shell: true})
-            })()
+            execa.commandSync(`cd ${config.webdir}`, {shell: true})
+            let response = execa.commandSync('git pull', {shell: true})
 
-            console.log('Updated at: ' + Date()) 
+            console.log('Updated at: ' + Date())
+            console.log('> ' + response.stdout) 
 
             return res.status(200).json({
                 success: true
