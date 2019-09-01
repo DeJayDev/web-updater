@@ -63,8 +63,7 @@ app.route('/update')
         let commit = body.head_commit
 
         if (commit.message.toLowerCase().startsWith(config.deployPrefix)) {
-            execa.commandSync(`cd ${config.webdir}`, {shell: true})
-            let response = execa.commandSync('git pull', {shell: true})
+            let response = execa.commandSync(`git -C ${config.webdir} pull`, {shell: true})
 
             console.log('Updated at: ' + Date())
             console.log('> ' + response.stdout) 
