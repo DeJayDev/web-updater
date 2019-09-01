@@ -46,11 +46,6 @@ app.route('/update')
         })
     })
     .post((req, res) => {
-        if (Object.keys(req.body).length === 0) return res.status(400).json({
-            success: false,
-            reason: 'No Body'
-        })
-
         let body = req.body
 
         if (!body.head_commit) {
