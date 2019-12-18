@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/DeJayDev/web-updater#readme",
   "dependencies": {
-    "execa": "^2.0.4",
+    "cloudflare": "^2.7.0",
+    "execa": "^2.1.0",
     "express": "^4.17.1",
     "node-fetch": "^2.6.0"
   }

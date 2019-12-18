@@ -2,16 +2,20 @@ const express = require('express')
 const app = express()
 
 const crypto = require('crypto')
-
-const execa = require('execa')
 const config = require('./config.json')
+
+const actions = {
+    DEPLOY: './actions/deploy.js',
+    CDN: './actions/cdn-deploy.js',
+    NOTIFY: './actions/notify.js'
+}
 
 app.use(express.json())
 
 app.route('/')
     .all((req, res) => {
         res.send('Oh, Hello!')
-    })
+    }) 
 
 app.route('/update')
     .all((req, res, next) => {
@@ -46,38 +50,13 @@ app.route('/update')
         })
     })
     .post((req, res) => {
-        let body = req.body
-
-        if (!body.head_commit) {
-            return res.status(400).json({
-                success: false,
-                reason: 'Missing head_commit'
-            })
-        }
-
-        let commit = body.head_commit
-
-        if (commit.message.toLowerCase().startsWith(config.deployPrefix)) {
-            let response = execa.commandSync(`git -C ${config.webdir} pull`, {shell: true})
-
-            console.log('Updated at: ' + Date())
-            console.log('> ' + response.stdout) 
-
-            return res.status(200).json({
-                success: true
-            })
-        }
-
-        return res.status(200).json({
-            success: false,
-            reason: 'Not Deploying'
-        })
+        actions.DEPLOY.run(req, res)
     })
     .delete((req, res, next) => {
         next(new Error('Wrong Type'))
     })
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     console.error(err.message)
     if (!err.statusCode) err.statusCode = 500
     res.status(err.statusCode).json({

@@ -2,5 +2,12 @@
     "secret": "",
     "deployPrefix": "deploy: ",
     "webdir": "/var/www/html",
-    "port": 1337
+    "port": 1337,
+    "cloudflare": {
+        "email": "",
+        "key": "",
+        "zones": [
+            ""
+        ]
+    }
 }
