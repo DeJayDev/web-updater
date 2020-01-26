@@ -5,9 +5,9 @@ const crypto = require('crypto')
 const config = require('./config.json')
 
 const actions = {
-    DEPLOY: './actions/deploy.js',
-    CDN: './actions/cdn-deploy.js',
-    NOTIFY: './actions/notify.js'
+    DEPLOY: require('./actions/deploy.js'),
+    CDN: require('./actions/cdn-deploy.js'),
+    NOTIFY: require('./actions/notify.js')
 }
 
 app.use(express.json())
