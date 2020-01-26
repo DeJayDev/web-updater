@@ -1,4 +1,4 @@
-const config = require('./config.json')
+const config = require('../config.json')
 const execa = require('execa')
 
 exports.run = (req, res) => {
